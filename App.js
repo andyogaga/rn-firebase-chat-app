@@ -1,114 +1,77 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+/* eslint-disable react-native/no-inline-styles */
+import 'react-native-gesture-handler';
+import 'react-native-paper';
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {Provider} from 'react-redux';
+import {persistStore} from 'redux-persist';
+import {PersistGate} from 'redux-persist/integration/react';
+import {ThemeProvider} from 'react-native-elements';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Store from './src/store';
 
-const App: () => React$Node = () => {
+import AlertComponent from './src/components/Alert';
+import RootApp from './src/navigation/auth.navigator';
+import {
+  PRI_COLOR,
+  SEC_COLOR,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  FADED,
+} from './src/utils/constants';
+import {View, Image} from 'react-native';
+import Logo from './src/assets/icons/chat.png';
+import ErrorBoundary from './src/components/ErrorBoundary';
+
+const persistor = persistStore(Store);
+
+const ThemedApp = () => {
+  const theme = {
+    colors: {
+      primary: PRI_COLOR,
+      secondary: SEC_COLOR,
+      text: '#444444',
+      faded: FADED,
+    },
+  };
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <ThemeProvider theme={theme}>
+      <RootApp />
+      <AlertComponent />
+    </ThemeProvider>
   );
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+const App = () => {
+  return (
+    <ErrorBoundary>
+      <Provider store={Store}>
+        <PersistGate
+          persistor={persistor}
+          loading={
+            <View
+              style={{
+                width: SCREEN_WIDTH,
+                height: SCREEN_HEIGHT,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={Logo}
+                style={{
+                  alignSelf: 'center',
+                  width: 156,
+                  height: 156,
+                }}
+                resizeMode="contain"
+              />
+            </View>
+          }>
+          <ThemedApp />
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
