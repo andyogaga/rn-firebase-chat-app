@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 import {withTheme} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
 import * as Yup from 'yup';
 import CustomButton from '../../components/CustomButton';
 import {Formik} from 'formik';
@@ -15,9 +16,11 @@ import {useNavigation} from '@react-navigation/native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, PRI_COLOR} from '../../utils/constants';
 import Logo from '../../assets/icons/chat.png';
 import CustomInput from '../../components/CustomInput';
+import {signInAnonymously} from '../../store/actions/auth.actions';
 
 const Login = (props) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const {theme} = props;
 
   const myCallback = useCallback(() => {
@@ -31,7 +34,13 @@ const Login = (props) => {
     myCallback;
   }, [myCallback]);
 
-  const login = ({user, password}, {setSubmitting, setFieldError}) => {};
+  const login = ({user}, {setSubmitting, setFieldError}) => {
+    dispatch(
+      signInAnonymously(user, () => {
+        setSubmitting(false);
+      }),
+    );
+  };
 
   const styles = StyleSheet.create({
     container: {
