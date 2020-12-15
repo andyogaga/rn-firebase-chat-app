@@ -7,7 +7,7 @@ import {shape, string} from 'prop-types';
 import Logo from '../../assets/icons/chat.png';
 import CustomText from '../../components/CustomText';
 
-const Splash = ({theme}) => {
+const Splash = () => {
   return (
     <View
       style={{
@@ -36,19 +36,11 @@ const Splash = ({theme}) => {
         }}>
         <ActivityIndicator size={40} color="#fff" />
         <CustomText style={{color: '#fff', marginTop: SCREEN_HEIGHT * 0.1}}>
-          By <CustomText style={{fontWeight: 'bold'}}>Andy Ogaga</CustomText>
+          By Andy Ogaga
         </CustomText>
       </View>
     </View>
   );
 };
 
-Splash.propTypes = {
-  theme: shape({
-    colors: shape({
-      primary: string,
-    }),
-  }),
-};
-
-export default withTheme(Splash);
+export default Splash;

@@ -11,7 +11,7 @@ import {useDispatch} from 'react-redux';
 import * as Yup from 'yup';
 import CustomButton from '../../components/CustomButton';
 import {Formik} from 'formik';
-import {shape, func, string} from 'prop-types';
+import {shape, string} from 'prop-types';
 import {useNavigation} from '@react-navigation/native';
 import {SCREEN_HEIGHT, SCREEN_WIDTH, PRI_COLOR} from '../../utils/constants';
 import Logo from '../../assets/icons/chat.png';
@@ -23,18 +23,7 @@ const Login = (props) => {
   const dispatch = useDispatch();
   const {theme} = props;
 
-  const myCallback = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Login'}],
-    });
-  }, []);
-
-  useEffect(() => {
-    myCallback;
-  }, [myCallback]);
-
-  const login = ({user}, {setSubmitting, setFieldError}) => {
+  const login = ({user}, {setSubmitting}) => {
     dispatch(
       signInAnonymously(user, () => {
         setSubmitting(false);
@@ -157,15 +146,11 @@ const Login = (props) => {
 };
 
 Login.propTypes = {
-  navigation: shape({
-    navigate: func,
-  }),
   theme: shape({
     colors: shape({
       primary: string,
     }),
   }),
-  sendLoginRequest: func,
 };
 
 export default withTheme(Login);

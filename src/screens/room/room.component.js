@@ -9,7 +9,7 @@ const Room = ({route}) => {
   const user = useSelector(({auth}) => auth.user);
   const {otherUser} = route.params;
 
-  useEffect(() => {
+  const myFirebaseCallback = useCallback(() => {
     const unsubscribeListener = firestore()
       .collection('threads')
       .where('sender', '==', user.uid)
@@ -36,31 +36,37 @@ const Room = ({route}) => {
       });
 
     return () => unsubscribeListener();
-  }, [user.uid]);
+  }, [otherUser.id, user.uid]);
 
-  const onSend = useCallback((newMessages = []) => {
-    console.log(newMessages);
-    firestore()
-      .collection('threads')
-      .add({
-        createdAt: new Date(),
-        message: newMessages[0].text,
-        receiver: otherUser.id,
-        sender: user.uid,
-      })
-      .then(() => {
-        setMessages((previousMessages) =>
-          GiftedChat.append(previousMessages, newMessages),
-        );
-      });
-  }, []);
+  useEffect(() => {
+    myFirebaseCallback();
+  }, [myFirebaseCallback]);
+
+  const onSend = useCallback(
+    (newMessages = []) => {
+      firestore()
+        .collection('threads')
+        .add({
+          createdAt: new Date(),
+          message: newMessages[0].text,
+          receiver: otherUser.id,
+          sender: user.uid,
+        })
+        .then(() => {
+          setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, newMessages),
+          );
+        });
+    },
+    [otherUser.id, user.uid],
+  );
 
   return (
     <>
       <CustomHeader showBack title={otherUser.name} />
       <GiftedChat
         messages={messages}
-        onSend={(messages) => onSend(messages)}
+        onSend={(sentMessage) => onSend(sentMessage)}
         user={{
           _id: user.uid,
           name: user.displayName,

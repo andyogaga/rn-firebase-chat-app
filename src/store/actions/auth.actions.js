@@ -8,7 +8,7 @@ import {
 } from './action.types';
 import {showFeedback} from './feedback.actions';
 
-export const signInAnonymously = (user, cb) => async (dispatch) => {
+export const signInAnonymously = (user, cb = () => {}) => async (dispatch) => {
   try {
     const res = await auth().signInAnonymously();
     await auth().currentUser.updateProfile({

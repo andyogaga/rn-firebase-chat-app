@@ -2,7 +2,7 @@ import {Dimensions} from 'react-native';
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-export const APP_NAME = 'Exalt';
+export const APP_NAME = 'Chat App';
 export const APP_URL = '';
 
 // App UI Setup

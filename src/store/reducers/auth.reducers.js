@@ -8,7 +8,6 @@ import {
 const initialState = {
   user: null,
   isAuthenticated: false,
-  token: '',
   firstAccess: true,
   introSeen: false,
 };
