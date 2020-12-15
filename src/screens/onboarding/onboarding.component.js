@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import {withTheme, Icon} from 'react-native-elements';
 import CustomText from '../../components/CustomText';
 import {useDispatch} from 'react-redux';
@@ -16,19 +16,18 @@ import {shape, string} from 'prop-types';
 
 const onboardInfo = {
   0: {
-    title: 'Select Animal',
-    body: 'Choose from a list of Animals to begin diagnosis',
+    title: 'View Chat Users',
+    body: 'Select a user from the list of registered users',
     image: FirstImage,
   },
   1: {
-    title: 'Select Symptoms',
-    body: 'Select from a list of symptoms noticed on selected animal',
+    title: 'Chat with User',
+    body: 'Chat with selected user',
     image: SecondImage,
   },
   2: {
-    title: 'View Diagnosis',
-    body:
-      'View the most probable disease affecting animal with symptoms, vaccine, treatment etc',
+    title: 'Get Notifications',
+    body: 'Get notified of new messages',
     image: ThirdImage,
   },
 };

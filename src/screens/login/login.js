@@ -38,6 +38,7 @@ const Login = (props) => {
     dispatch(
       signInAnonymously(user, () => {
         setSubmitting(false);
+        navigation.navigate('Users');
       }),
     );
   };

@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   LOGIN,
   LOGOUT,
@@ -7,13 +8,15 @@ import {
 } from './action.types';
 import {showFeedback} from './feedback.actions';
 
-export const signInAnonymously = (values, cb) => async (dispatch) => {
+export const signInAnonymously = (user, cb) => async (dispatch) => {
   try {
-    await auth().signInAnonymously();
-    const res = await auth().currentUser.updateProfile({
-      displayName: values.user,
+    const res = await auth().signInAnonymously();
+    await auth().currentUser.updateProfile({
+      displayName: user,
     });
-    console.log(res);
+    await firestore().collection('users').add({
+      name: user,
+    });
     if (res) {
       dispatch(showFeedback('Your account has been created successfully'));
       dispatch({

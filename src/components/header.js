@@ -21,12 +21,9 @@ const CustomHeader = ({
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        position: 'absolute',
-        top: 0,
-        height: 50,
         width: SCREEN_WIDTH,
+        height: 60,
         backgroundColor: transparent ? 'transparent' : theme.colors.primary,
-
         marginBottom: 0,
         zIndex: 3,
       }}>
@@ -61,7 +58,12 @@ const CustomHeader = ({
           }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <CustomText
-              style={{fontSize: 16, color: '#fff', alignSelf: 'flex-start'}}
+              style={{
+                fontSize: 16,
+                color: '#fff',
+                alignSelf: 'flex-start',
+                fontWeight: 'bold',
+              }}
               numberOfLines={1}>
               {title ? title : ''}
             </CustomText>
